@@ -1,4 +1,4 @@
-/*
+/*  $()
   Write JS to make this stoplight work.
 
   When I click on the 'stop' button,
@@ -8,7 +8,6 @@
   When I click on the 'go' button
     the bottom light should turn green.
 */
-
 /////////////////////////////////
 ///////////// VARIABLES
 /////////////////////////////////
@@ -18,26 +17,40 @@ var slowButton = document.querySelector('#slowButton');
 var slowLight = document.querySelector('#slowLight');
 var goButton = document.querySelector('#goButton');
 var goLight = document.querySelector('#goLight');
-// var buttonClass = document.getElementsByClassName('.button');
-// console.log
+var currentColor = document.querySelector('#currentColor');
+var pixel = document.querySelector('#pixel');
+var savedColor = '';
+
 
 /////////////////////////////////
 ///////////// ON CLICK
 /////////////////////////////////
+function showColorClicked (div) {
+  savedColor = $(div).css('backgroundColor');
+  currentColor.style['background-color'] = savedColor;
+}
+function assignColor (div) {
+  pixel.style['background-color'] = savedColor;
+
+}
+
 stopButton.addEventListener('click', function(event) {
   if (stopLight.style['background-color'] === "red") {
     stopLight.style['background-color'] = "black";
-  } else {
-
-    stopLight.style['background-color'] = "black";
-    slowLight.style['background-color'] = "orange";
-    goLight.style['background-color'] = "black";
-    }
-    setTimeout( function() {
+  } else if (goLight.style['background-color'] === "green"){
+      stopLight.style['background-color'] = "black";
+      slowLight.style['background-color'] = "orange";
+      goLight.style['background-color'] = "black";
+      setTimeout(function() {
+        stopLight.style['background-color'] = "red";
+        slowLight.style['background-color'] = "black";
+        goLight.style['background-color'] = "black";
+      }, 5000);
+    } else {
       stopLight.style['background-color'] = "red";
       slowLight.style['background-color'] = "black";
       goLight.style['background-color'] = "black";
-    }, 5000);
+    }
 });
 
 slowButton.addEventListener('click', function(event) {
@@ -99,9 +112,8 @@ goButton.addEventListener('mouseout', function(event) {
 /////////////////////////////////
 
 document.getElementById('controls').addEventListener('click', function(event) {
-  var src = event.target;
-src.parentElement.style['background-color'] =  'black';
+  // don't log textcontent if the space between buttons was clicked
+   if (event.target !== event.currentTarget) {
+     console.log(event.target.textContent);
+   }
 });
-// document.querySelector()'.button').addEventListener('click', function(event) {
-//   console.log(event.target.textContent);
-// });
